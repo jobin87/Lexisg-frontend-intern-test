@@ -6,16 +6,16 @@ import Typography from "@mui/material/Typography";
 
 import { RouterLink } from "src/routes/components";
 
-import { PageNotFoundIllustration } from "src/assets/illustrations";
 
 import { MotionContainer, varBounce } from "src/components/animate";
-import { AuthSplitLayout } from "src/layout/auth-split";
+import { DashboardLayout } from "src/layouts/dashboard";
+import PageNotFoundIllustration from "src/assets/illustrations/page-not-found-illustration";
 
 // ----------------------------------------------------------------------
 
 export function NotFoundView() {
   return (
-    <AuthSplitLayout>
+    <DashboardLayout>
       <Container component={MotionContainer}>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
@@ -43,6 +43,6 @@ export function NotFoundView() {
           Go to home
         </Button>
       </Container>
-    </AuthSplitLayout>
+    </DashboardLayout>
   );
 }
