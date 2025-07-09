@@ -14,7 +14,8 @@ export function FooterSection() {
   // ✅ Get Zustand state
   const { inputValue, setInputValue, setMessages } = useAiSupportStore();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+     e.preventDefault();
     if (inputValue.trim()) {
       const userMessage = { text: inputValue, sender: "user" } as const;
       const botReply = {
@@ -56,6 +57,8 @@ export function FooterSection() {
             }}
           >
             <Box
+            component="form"
+             onSubmit={handleSubmit}
               sx={{
                 flexDirection: "row",
                 display: "flex",

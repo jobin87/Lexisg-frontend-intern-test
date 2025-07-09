@@ -6,7 +6,7 @@ import { AiSupportView } from 'src/section/dashboard/home/view/ai-view';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Home | Jwt - ${CONFIG.appName}` };
+const metadata = { title: `HomeAI | Jwt - ${CONFIG.appName}` };
 
 export default function Page() {
   return (

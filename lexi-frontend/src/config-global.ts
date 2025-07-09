@@ -20,7 +20,7 @@ export type ConfigValue = {
 // ----------------------------------------------------------------------
 
 export const CONFIG: ConfigValue = {
-  appName: "usermanagement",
+  appName: "lexi-frontend",
   appVersion: packageJson.version,
   serverUrl: import.meta.env.VITE_SERVER_URL ?? '',
   baseUrl: import.meta.env.VITE_AUTH_BASE_URL ?? "",

@@ -39,9 +39,12 @@ export function LayoutSection({
           '--layout-header-blur': '8px',
           '--layout-header-zIndex': 1100,
           '--layout-header-mobile-height': '64px',
-          '--layout-header-desktop-height': '72px',
+          '--layout-header-desktop-height': '60px',
           ...cssVars,
         },
+        'body::-webkit-scrollbar': {
+        display: 'none',                // Chrome, Safari, Opera
+      },
       }}
     />
   );
