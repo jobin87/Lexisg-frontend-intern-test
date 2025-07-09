@@ -3,6 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { LoadingScreen } from "src/components/loading-screen";
 import { GuestGuard } from "src/guard";
 import { DashboardLayout } from "src/layouts/dashboard";
+import { AiSupportStateWrapper } from "src/pages/aichat/ai-support";
 
 // Lazy loaded components
 const Home = lazy(() => import("src/pages/aichat/aichat"));
@@ -22,7 +23,7 @@ const dashboardRoutes = [
     children: [
       {
         path: "ai",
-        element: <Outlet />,
+        element: <AiSupportStateWrapper/>,
         children: [{ path:"support", element: <Home /> }],
       },
     ],

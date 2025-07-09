@@ -1,4 +1,5 @@
 import type { Breakpoint, SxProps, Theme } from "@mui/material/styles";
+import React from "react";
 import type { NavSectionProps } from "src/components/nav-section";
 
 import Alert from "@mui/material/Alert";
@@ -8,6 +9,7 @@ import { useBoolean } from "src/hooks/use-boolean";
 
 import { useSettingsContext } from "src/components/settings";
 
+import { iconButtonClasses } from "@mui/material";
 import { useState } from "react";
 import { layoutClasses } from "../classes";
 import { MenuButton } from "../components/menu-button";
@@ -20,15 +22,20 @@ import { Main } from "./main";
 import { NavMobile } from "./nav-mobile";
 import { NavVertical } from "./nav-vertical";
 import { useNavColorVars } from "./styles";
-import { iconButtonClasses } from "@mui/material";
-import { OverviewAiCard } from "src/section/dashboard/home/overview-first-card";
-import { ReactElement, isValidElement, cloneElement } from "react";
 
 // ----------------------------------------------------------------------
 
 export type DashboardLayoutProps = {
   sx?: SxProps<Theme>;
-  children: React.ReactNode;
+  children: React.ReactElement<{
+    messages: { text: string; sender: "user" | "bot" }[];
+    setMessages: React.Dispatch<
+      React.SetStateAction<{ text: string; sender: "user" | "bot" }[]>
+    >;
+    inputValue: string;
+    setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  }>;
+  // 👈 key fix here
   header?: {
     sx?: SxProps<Theme>;
   };
@@ -54,15 +61,21 @@ export function DashboardLayout({
   const layoutQuery: Breakpoint = "lg";
 
   const navData = data?.nav ?? dashboardNavData;
-  
-  const isNavMini = settings.navLayout === 'mini';
-  const isNavHorizontal = settings.navLayout === 'horizontal';
-  const isNavVertical = isNavMini || settings.navLayout === 'vertical';
+
+  const isNavMini = settings.navLayout === "mini";
+  const isNavHorizontal = settings.navLayout === "horizontal";
+  const isNavVertical = isNavMini || settings.navLayout === "vertical";
+  type Message = { text: string; sender: "user" | "bot" };
+
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const [inputValue, setInputValue] = useState("");
-  const [messages, setMessages] = useState<
-    { text: string; sender: "user" | "bot" }[]
-  >([]);
+
+  console.log("Layout Messages State:", messages);
+  console.log("Children Props:", {
+    messages,
+    inputValue,
+  });
 
   return (
     <LayoutSection
@@ -71,19 +84,18 @@ export function DashboardLayout({
        *************************************** */
       headerSection={
         <HeaderSection
-
           layoutQuery={layoutQuery}
-                    disableElevation={isNavVertical}
+          disableElevation={isNavVertical}
           slotProps={{
             toolbar: {
               sx: {
                 ...(isNavHorizontal && {
-                  bgcolor: 'var(--layout-nav-bg)',
+                  bgcolor: "var(--layout-nav-bg)",
                   [`& .${iconButtonClasses.root}`]: {
-                    color: 'var(--layout-nav-text-secondary-color)',
+                    color: "var(--layout-nav-text-secondary-color)",
                   },
                   [theme.breakpoints.up(layoutQuery)]: {
-                    height: 'var(--layout-nav-horizontal-height)',
+                    height: "var(--layout-nav-horizontal-height)",
                   },
                 }),
               },
@@ -129,33 +141,23 @@ export function DashboardLayout({
        * Sidebar
        *************************************** */
       sidebarSection={
-         (
-          <NavVertical
-            data={navData}
-            isNavMini={isNavMini}
-            layoutQuery={layoutQuery}
-            cssVars={navColorVars.section}
-            onToggleNav={() =>
-              settings.onUpdateField(
-                'navLayout',
-                settings.navLayout === 'vertical' ? 'mini' : 'vertical'
-              )
-            }
-          />
-        )
+        <NavVertical
+          data={navData}
+          isNavMini={isNavMini}
+          layoutQuery={layoutQuery}
+          cssVars={navColorVars.section}
+          onToggleNav={() =>
+            settings.onUpdateField(
+              "navLayout",
+              settings.navLayout === "vertical" ? "mini" : "vertical"
+            )
+          }
+        />
       }
-
-      
       /** **************************************
        * Footer
        *************************************** */
-      footerSection={
-        <FooterSection
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          setMessages={setMessages}
-        />
-      }
+      footerSection={<FooterSection />}
       /** **************************************
        * Style
        *************************************** */
@@ -166,34 +168,26 @@ export function DashboardLayout({
         "--layout-nav-mini-width": "88px",
         "--layout-nav-vertical-width": "300px",
         "--layout-nav-horizontal-height": "64px",
-        "--layout-dashboard-content-pt": theme.spacing(1),
+        "--layout-dashboard-content-pt": theme.spacing(0),
         "--layout-dashboard-content-pb": theme.spacing(8),
         "--layout-dashboard-content-px": theme.spacing(5),
       }}
-       sx={{
+      sx={{
         [`& .${layoutClasses.hasSidebar}`]: {
           [theme.breakpoints.up(layoutQuery)]: {
-            transition: theme.transitions.create(['padding-left'], {
-              easing: 'var(--layout-transition-easing)',
-              duration: 'var(--layout-transition-duration)',
+            transition: theme.transitions.create(["padding-left"], {
+              easing: "var(--layout-transition-easing)",
+              duration: "var(--layout-transition-duration)",
             }),
-            pl: isNavMini ? 'var(--layout-nav-mini-width)' : 'var(--layout-nav-vertical-width)',
+            pl: isNavMini
+              ? "var(--layout-nav-mini-width)"
+              : "var(--layout-nav-vertical-width)",
           },
         },
         ...sx,
       }}
     >
-  <Main isNavHorizontal={false}>
-  {isValidElement(children)
-    ? cloneElement(children as ReactElement<any>, {
-        messages,
-        inputValue,
-        setMessages,
-        setInputValue,
-      })
-    : children}
-</Main>
-
+      <Main isNavHorizontal={false}>{children}</Main>
     </LayoutSection>
   );
 }

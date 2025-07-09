@@ -1,7 +1,11 @@
-import { useMediaQuery, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import GlobalStyles from '@mui/material/GlobalStyles';
+import {
+  Box,
+  GlobalStyles,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import type { CSSObject, SxProps, Theme } from '@mui/material/styles';
+import { useAiSupportStore } from 'src/store/aimessage'; // Adjust path as needed
 import { layoutClasses } from '../classes';
 
 export type LayoutSectionProps = {
@@ -21,6 +25,9 @@ export function LayoutSection({
   headerSection,
   sidebarSection,
 }: LayoutSectionProps) {
+  const messages = useAiSupportStore((state) => state.messages);
+  const hasMessages = messages.length > 0;
+
   const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
   const inputGlobalStyles = (
@@ -40,38 +47,36 @@ export function LayoutSection({
   );
 
   const renderResponsiveText = () => (
-    <Box sx={{ textAlign: 'center', py: 2 }}>
+    <Box sx={{ textAlign: 'center'}}>
       <Typography sx={{ color: '#10a37f', fontWeight: 500 }}>
-        {isMdUp ? 'Welcome to the desktop view!' : 'Ready when you are.'}
+        {isMdUp ? 'hey I am Lexi i am here for you!' : 'hey i am lexi i am Ready when you are.'}
       </Typography>
     </Box>
   );
 
-  const renderResponsiveImage = () => (
-    <Box sx={{ textAlign: 'center', py: 2 }}>
-      <img
-        src="/assets/your-image.png" // Replace with your image path
-        alt="Responsive Example"
-        style={{ maxWidth: '100%', height: 'auto' }}
-      />
-    </Box>
-  );
-
   const renderContent = () => {
-    if (isMdUp) {
-      return (
-        <>
-          {footerSection}
-          {renderResponsiveText()}
-          {children}
-        </>
-      );
-    }
+    const shouldHide = hasMessages;
+
     return (
       <>
-        {children}
-        {renderResponsiveText()}
-        {footerSection}
+        {/* Scrollable Content */}
+        <Box sx={{ flex: 1, overflow: 'auto' }}>
+          {children}
+          {!shouldHide && renderResponsiveText()}
+        </Box>
+
+        {/* Sticky Footer */}
+          <Box
+            sx={{
+              position: 'sticky',
+              bottom: 0,
+              zIndex: 1000,
+              backgroundColor: 'background.paper',
+              borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            {footerSection}
+          </Box>
       </>
     );
   };
@@ -80,7 +85,16 @@ export function LayoutSection({
     <>
       {inputGlobalStyles}
 
-      <Box id="root__layout" className={layoutClasses.root} sx={sx}>
+      <Box
+        id="root__layout"
+        className={layoutClasses.root}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+          ...sx,
+        }}
+      >
         {sidebarSection ? (
           <>
             {sidebarSection}

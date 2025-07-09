@@ -6,63 +6,38 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { useAiSupportStore } from "src/store/aimessage";
 
-type FooterSectionProps = {
-  inputValue: string;
-  setInputValue: (val: string) => void;
-  setMessages: React.Dispatch<React.SetStateAction<{ text: string; sender: "user" | "bot" }[]>>;
-};
-
-const StyledElevation = styled("span")(({ theme }) => ({
-  left: 0,
-  right: 0,
-  bottom: 0,
-  m: "auto",
-  height: 24,
-  zIndex: -1,
-  opacity: 0.48,
-  borderRadius: "50%",
-  position: "absolute",
-  width: `calc(100% - 48px)`,
-  boxShadow: theme.customShadows.z8,
-  ml: 4,
-  mr: 4,
-}));
-
-
-
-export function FooterSection({ inputValue, setInputValue, setMessages }: FooterSectionProps) {
+export function FooterSection() {
   const theme = useTheme();
 
+  // ✅ Get Zustand state
+  const { inputValue, setInputValue, setMessages } = useAiSupportStore();
 
   const handleSubmit = () => {
-  if (inputValue.trim()) {
-    const userMessage = { text: inputValue, sender: "user" } as const;
-    const botReply = {
-      text: "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh...",
-      sender: "bot",
-    } as const;
+    if (inputValue.trim()) {
+      const userMessage = { text: inputValue, sender: "user" } as const;
+      const botReply = {
+        text: "Yes, under Section 166 of the Motor Vehicles Act, 1988, the claimants are entitled to an addition for future prospects even when the deceased was self-employed and aged 54–55 years at the time of the accident. In Dani Devi v. Pritam Singh, the Court held that 10% of the deceased’s annual income should be added as future prospects.",
+        sender: "bot",
+        citation: {
+          para: 7,
+          text: `“as the age of the deceased at the time of accident was held to be about 54–55 years by the learned Tribunal, being self-employed, as such, 10% of annual income should have been awarded on account of future prospects.” (Para 7 of the document)`,
+          pdfUrl: "/judgment.pdf", // replace with actual path or URL
+        },
+      } as const;
 
-    setMessages((prev) => [...prev, userMessage, botReply]);
-    setInputValue("");
-  }
-};
+      console.log("User Message:", userMessage);
+      console.log("Bot Reply:", botReply);
+
+      setMessages((prev) => [...prev, userMessage, botReply]);
+      setInputValue("");
+    }
+  };
 
   return (
     <Box sx={{ p: 1 }}>
-      {/* ✅ Chat Input Box */}
-      <Card
-        sx={{
-          m: "auto",
-          width: "100%",
-          maxWidth: "100%",
-          borderRadius: 2,
-          // backgroundColor: theme.palette.background.paper,
-          // boxShadow: theme.shadows[24],
-          // border: `2px solid ${theme.palette.divider}`,
-        }}
-      >
+      <Card>
         <Box
           sx={{
             display: "flex",
@@ -81,7 +56,6 @@ export function FooterSection({ inputValue, setInputValue, setMessages }: Footer
               gap: 2,
             }}
           >
-            {/* Input + Submit */}
             <Box
               sx={{
                 flexDirection: "row",
@@ -101,25 +75,23 @@ export function FooterSection({ inputValue, setInputValue, setMessages }: Footer
                 InputProps={{
                   disableUnderline: true,
                   sx: {
-                    height: 48, // Set desired height
-                    alignItems: "center", // ✅ Vertically center the input area
-                    px: 2, // Optional horizontal padding
+                    height: 48,
+                    alignItems: "center",
+                    px: 2,
                   },
                 }}
                 inputProps={{
                   sx: {
-                    padding: 0, // Remove default vertical padding
-                    // ✅ No textAlign — leave it default (left)
+                    padding: 0,
                   },
                 }}
               />
 
               <Button size="small" variant="contained" onClick={handleSubmit}>
-                Submit
+                Send
               </Button>
             </Box>
 
-            {/* Optional Footer Tools */}
             <Box
               sx={{
                 display: { xs: "flex", md: "none" },

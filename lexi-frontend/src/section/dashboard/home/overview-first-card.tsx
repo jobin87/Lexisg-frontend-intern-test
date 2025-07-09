@@ -1,73 +1,89 @@
-import { Button, Divider, TextField, useTheme } from "@mui/material";
+// ✅ NO context usage here — props only
 import { Box } from "@mui/system";
-import { useState } from "react";
+
+import { useAiSupportStore } from "src/store/aimessage";
 
 export const OverviewAiCard = () => {
-    const theme = useTheme();
-  
-    const [inputValue, setInputValue] = useState("");
-    const [showReadyText, setShowReadyText] = useState(true);
-    const [messages, setMessages] = useState<
-      { text: string; sender: "user" | "bot" }[]
-    >([]);
-  
-  const handleSubmit = () => {
-  if (inputValue.trim()) {
-    const userMessage = { text: inputValue, sender: "user" } as const;
-    const botReply = {
-      text: "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh...",
-      sender: "bot",
-    } as const;
-
-    setMessages((prev) => [...prev, userMessage, botReply]);
-    setInputValue("");
-    setShowReadyText(false);
-  }
-};
+ const messages = useAiSupportStore((state) => state.messages);
 
   return (
-    <Box >
-      
-            {/* ✅ Message List */}
-            {messages.length > 0 && (
-              <Box
-                sx={{
-                  width: "100%",
-                  maxHeight: "calc(100dvh - 210px)", // ✅ keeps it above the search box
-                  overflowY: "auto", // ✅ scrolls when too long
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-end",
-                  gap: 1,
-                  px:5,
-                  mb:3
-                }}
-              >
-                {messages.map((msg, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      alignSelf: msg.sender === "user" ? "flex-end" : "flex-start", // ✅ key part
-                      bgcolor: msg.sender === "user" ? "#1e1e1e" : "#f1f1f1",
-                      color: msg.sender === "user" ? "#fff" : "#000",
-                      p: 2,
-                      borderRadius: 2,
-                      fontSize: "15px",
-                      lineHeight: 1.5,
-                      boxShadow: theme.shadows[4],
-                      wordBreak: "break-word",
-                      whiteSpace: "pre-wrap",
-                      width: "fit-content", // Size based on content
-                      maxWidth: msg.sender==="bot"?"100%":"55%", // Don't go beyond this
-                      minWidth: "20%", // Optional: looks better for short messages
-                      mt:4
-                    }}
-                  >
-                    {msg.text}
-                  </Box>
-                ))}
-              </Box>
-            )}
+  <Box
+  sx={{
+    width: "100%",
+    overflowY: "auto",
+    display: "flex",
+    flexDirection: "column",
+    gap: 1,
+    px: 5,
+  }}
+>
+  {messages.map((msg, index) => (
+    <Box
+      key={index}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: msg.sender === "user" ? "flex-end" : "flex-start",
+      }}
+    >
+      {/* Message Bubble */}
+      <Box
+        sx={{
+          bgcolor: msg.sender === "user" ? "#1e1e1e" : "#f1f1f1",
+          color: msg.sender === "user" ? "#fff" : "#000",
+          p: 2,
+          borderRadius: 2,
+          fontSize: "15px",
+          lineHeight: 1.5,
+          wordBreak: "break-word",
+          whiteSpace: "pre-wrap",
+          width: "fit-content",
+          maxWidth: msg.sender === "user"  ? "55%" : "100%",
+          minWidth: "20%",
+          mt: 2,
+          mb: msg.sender === "bot" && msg.citation ? 1 : 4,
+        }}
+      >
+        {msg.text}
+      </Box>
+
+      {/* Citation Below Bot Message */}
+      {msg.sender === "bot" && msg.citation && (
+        <Box
+          sx={{
+            bgcolor: "#f9f9f9",
+            borderLeft: "3px solid #10a37f",
+            borderRadius: 1,
+            px: 2,
+            py: 1.5,
+            mb: 3,
+            maxWidth: "90%",
+          }}
+        >
+          <Box sx={{ fontSize: "13px", fontWeight: 500, mb: 0.5 }}>
+            📎 Citation (Para {msg.citation.para}):
+          </Box>
+          <Box sx={{ fontSize: "13px", fontStyle: "italic", mb: 1 }}>
+            {msg.citation.text}
+          </Box>
+          <a
+            href="/pdfs/dani-vs-pritam.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: "13px",
+              color: "#10a37f",
+              textDecoration: "underline",
+            }}
+          >
+            Download Judgment PDF
+          </a>
+        </Box>
+      )}
     </Box>
+  ))}
+</Box>
+
+
   );
 };
