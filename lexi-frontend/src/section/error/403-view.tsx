@@ -9,13 +9,13 @@ import { RouterLink } from "src/routes/components";
 import { ForbiddenIllustration } from "src/assets/illustrations";
 
 import { MotionContainer, varBounce } from "src/components/animate";
-import { AuthSplitLayout } from "src/layout/auth-split";
+import { DashboardLayout } from "src/layouts/dashboard";
 
 // ----------------------------------------------------------------------
 
 export function View403() {
   return (
-    <AuthSplitLayout>
+    <DashboardLayout>
       <Container component={MotionContainer}>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
@@ -43,6 +43,6 @@ export function View403() {
           Go to home
         </Button>
       </Container>
-    </AuthSplitLayout>
+    </DashboardLayout>
   );
 }
