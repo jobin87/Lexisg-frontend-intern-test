@@ -21,7 +21,7 @@ export const navData = [
    * Overview
    */
   {
-    subheader: '',
+    subheader: 'AI',
     items: [
       { title: 'Support', path: paths.dashboard.AiChat, icon: ICONS.Ai },
     ],

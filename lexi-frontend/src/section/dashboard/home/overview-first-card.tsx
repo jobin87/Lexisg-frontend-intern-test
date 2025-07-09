@@ -38,7 +38,7 @@ export const OverviewAiCard = () => {
           wordBreak: "break-word",
           whiteSpace: "pre-wrap",
           width: "fit-content",
-          maxWidth: msg.sender === "user"  ? "55%" : "100%",
+          maxWidth: msg.sender === "user"  ? "65%" : "100%",
           minWidth: "20%",
           mt: 2,
           mb: msg.sender === "bot" && msg.citation ? 1 : 4,

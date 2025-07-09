@@ -36,8 +36,7 @@ export function FooterSection() {
   };
 
   return (
-    <Box sx={{ p: 1 }}>
-      <Card>
+      <Card sx={{px:2,mb:2,borderBottom:"1px solid"}}>
         <Box
           sx={{
             display: "flex",
@@ -94,7 +93,7 @@ export function FooterSection() {
 
             <Box
               sx={{
-                display: { xs: "flex", md: "none" },
+                display:"flex",
                 flexDirection: "row",
                 gap: 2,
                 pl: 3,
@@ -106,6 +105,5 @@ export function FooterSection() {
           </Box>
         </Box>
       </Card>
-    </Box>
   );
 }
