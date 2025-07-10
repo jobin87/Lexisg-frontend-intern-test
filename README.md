@@ -7,16 +7,16 @@ This is the frontend of Lexi, a minimal legal assistant interface built with Rea
 ## 📸 Screenshots
 
 ### 1. mobile desktop responsive view
-![mobile desktop responsive view](./screenshots/screenshot-mdin-mobile.jpg)
+![mobile desktop responsive view](lexi-frontend/screenshots/screenshot-mdin-mobile.jpg)
 
 ### 2. Support desktop view
-![ Support desktop view](./screenshots/responsive-ui.png)
+![ Support desktop view](lexi-frontend/screenshots/responsive-ui.png)
 
 ### 3. Legal Citation 
-![Legal Citation ](./screenshots/screenshot-mobile.jpg)
+![Legal Citation ](lexi-frontend/screenshots/screenshot-mobile.jpg)
 
 ### 4. UI
-![UI](./screenshots/ui.png)
+![UI](lexi-frontend/screenshots/ui.png)
 
 
 ### 1. Clone the repository
