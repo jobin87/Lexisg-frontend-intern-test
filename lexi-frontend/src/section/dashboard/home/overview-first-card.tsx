@@ -29,7 +29,7 @@ export const OverviewAiCard = () => {
       {/* Message Bubble */}
       <Box
         sx={{
-          bgcolor: msg.sender === "user" ? "#1e1e1e" : "#f1f1f1",
+          bgcolor: msg.sender === "user" ? "#212121" : "white",
           color: msg.sender === "user" ? "#fff" : "#000",
           p: 2,
           borderRadius: 2,

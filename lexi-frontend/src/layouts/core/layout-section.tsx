@@ -1,12 +1,7 @@
-import {
-  Box,
-  GlobalStyles,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
-import type { CSSObject, SxProps, Theme } from '@mui/material/styles';
-import { useAiSupportStore } from 'src/store/aimessage'; // Adjust path as needed
-import { layoutClasses } from '../classes';
+import { Box, GlobalStyles, Typography, useMediaQuery } from "@mui/material";
+import type { CSSObject, SxProps, Theme } from "@mui/material/styles";
+import { useAiSupportStore } from "src/store/aimessage"; // Adjust path as needed
+import { layoutClasses } from "../classes";
 
 export type LayoutSectionProps = {
   sx?: SxProps<Theme>;
@@ -28,31 +23,33 @@ export function LayoutSection({
   const messages = useAiSupportStore((state) => state.messages);
   const hasMessages = messages.length > 0;
 
-  const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+  const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
   const inputGlobalStyles = (
     <GlobalStyles
       styles={{
         body: {
-          '--layout-nav-zIndex': 1101,
-          '--layout-nav-mobile-width': '320px',
-          '--layout-header-blur': '8px',
-          '--layout-header-zIndex': 1100,
-          '--layout-header-mobile-height': '64px',
-          '--layout-header-desktop-height': '60px',
+          "--layout-nav-zIndex": 1101,
+          "--layout-nav-mobile-width": "320px",
+          "--layout-header-blur": "8px",
+          "--layout-header-zIndex": 1100,
+          "--layout-header-mobile-height": "64px",
+          "--layout-header-desktop-height": "60px",
           ...cssVars,
         },
-        'body::-webkit-scrollbar': {
-        display: 'none',                // Chrome, Safari, Opera
-      },
+        "body::-webkit-scrollbar": {
+          display: "none", // Chrome, Safari, Opera
+        },
       }}
     />
   );
 
   const renderResponsiveText = () => (
-    <Box sx={{ textAlign: 'center'}}>
-      <Typography sx={{ color: '#10a37f', fontWeight: 500 }}>
-        {isMdUp ? 'hey I am Lexi i am here for you!' : 'hey i am lexi i am Ready when you are.'}
+    <Box sx={{ textAlign: "center" }}>
+      <Typography sx={{ color: "#10a37f", fontWeight: 500 }}>
+        {isMdUp
+          ? "hey I am Lexi i am here for you!"
+          : "hey i am lexi i am Ready when you are."}
       </Typography>
     </Box>
   );
@@ -61,26 +58,29 @@ export function LayoutSection({
     const shouldHide = hasMessages;
 
     return (
-      <>
-        {/* Scrollable Content */}
-        <Box sx={{ flex: 1, overflow: 'auto' }}>
-          {children}
-          {!shouldHide && renderResponsiveText()}
-        </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+        }}
+      >
+        <Box sx={{ flex: 1, overflowY: "auto" }}>{children}</Box>
 
-        {/* Sticky Footer */}
-          <Box
-            sx={{
-              position: 'sticky',
-              bottom: 0,
-              zIndex: 1000,
-              backgroundColor: 'background.paper',
-              borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-            }}
-          >
-            {footerSection}
-          </Box>
-      </>
+        <Box
+          sx={{
+            position: "sticky",
+            bottom: 0,
+            zIndex: 1000,
+            backgroundColor: "white",
+            borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+            px: 2,
+            py: 1,
+          }}
+        >
+          {footerSection}
+        </Box>
+      </Box>
     );
   };
 
@@ -92,9 +92,9 @@ export function LayoutSection({
         id="root__layout"
         className={layoutClasses.root}
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
           ...sx,
         }}
       >

@@ -15,7 +15,7 @@ export function FooterSection() {
   const { inputValue, setInputValue, setMessages } = useAiSupportStore();
 
   const handleSubmit = (e: React.FormEvent) => {
-     e.preventDefault();
+    e.preventDefault();
     if (inputValue.trim()) {
       const userMessage = { text: inputValue, sender: "user" } as const;
       const botReply = {
@@ -34,79 +34,105 @@ export function FooterSection() {
       setMessages((prev) => [...prev, userMessage, botReply]);
       setInputValue("");
     }
+    
   };
 
   return (
-      <Card sx={{px:2,mb:2,borderBottom:"1px solid"}}>
+    <Card sx={{ mb: 2, border: "1px solid" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          gap: 4,
+          overflowX: "auto",
+          flexWrap: "nowrap",
+        }}
+      >
         <Box
           sx={{
+            minWidth: "100%",
+            py: 2,
             display: "flex",
-            justifyContent: "space-evenly",
-            gap: 4,
-            overflowX: "auto",
-            flexWrap: "nowrap",
+            flexDirection: "column",
+            gap: 2,
           }}
         >
           <Box
+            component="form"
+            onSubmit={handleSubmit}
             sx={{
-              minWidth: "100%",
-              py: 2,
+              flexDirection: "row",
               display: "flex",
-              flexDirection: "column",
               gap: 2,
+              alignItems: "center",
+              px: 1,
+              "body::-webkit-scrollbar": {
+                display: "none", // Chrome, Safari, Opera
+              },
             }}
           >
-            <Box
-            component="form"
-             onSubmit={handleSubmit}
-              sx={{
-                flexDirection: "row",
-                display: "flex",
-                gap: 2,
-                alignItems: "center",
-                px: 1,
+            <TextField
+              size="medium"
+              variant="filled"
+              placeholder="Ask Anything"
+              fullWidth
+              multiline
+              minRows={1}
+              maxRows={8}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  alignItems: "center",
+                  px: 2,
+                  py: 1,
+                },
               }}
-            >
-              <TextField
-                size="medium"
-                variant="filled"
-                placeholder="Ask Anything"
-                fullWidth
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                InputProps={{
-                  disableUnderline: true,
-                  sx: {
-                    height: 48,
-                    alignItems: "center",
-                    px: 2,
-                  },
-                }}
-                inputProps={{
-                  sx: {
-                    padding: 0,
-                  },
-                }}
-              />
+              onKeyDown={(e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault(); // Prevent newline
+    handleSubmit(e as any); // Call your submit handler
+  }
+}}
 
-              <Button size="small" variant="contained" onClick={handleSubmit}>
-                Send
-              </Button>
-            </Box>
-
-            <Box
-              sx={{
-                display:"flex",
-                flexDirection: "row",
-                gap: 2,
-                pl: 3,
+              inputProps={{
+                sx: {
+                  padding: 0,
+                  fontSize: "16px",
+                  maxHeight: "120px",
+                  overflowY: "auto",
+                },
+                onWheel: (e: React.WheelEvent<HTMLTextAreaElement>) => {
+                  e.stopPropagation(); // ✅ prevent outer scroll
+                },
+                "body::-webkit-scrollbar": {
+                  display: "none", // Chrome, Safari, Opera
+                },
               }}
-            >
+            />
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              gap: 2,
+              px: 3,
+            }}
+          >
+            <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
               <Typography>+</Typography>
               <Typography>Tools</Typography>
             </Box>
+
+            <Button size="small" variant="contained" onClick={handleSubmit}>
+              Send
+            </Button>
           </Box>
         </Box>
-      </Card>
+      </Box>
+    </Card>
   );
 }
