@@ -140,7 +140,20 @@ export function DashboardLayout({
       /** **************************************
        * Sidebar
        *************************************** */
-
+      sidebarSection={
+        <NavVertical
+          data={navData}
+          isNavMini={isNavMini}
+          layoutQuery={layoutQuery}
+          cssVars={navColorVars.section}
+          onToggleNav={() =>
+            settings.onUpdateField(
+              "navLayout",
+              settings.navLayout === "vertical" ? "mini" : "vertical"
+            )
+          }
+        />
+      }
       /** **************************************
        * Footer
        *************************************** */
