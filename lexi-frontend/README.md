@@ -4,6 +4,21 @@
 This is the frontend of Lexi, a minimal legal assistant interface built with React, TypeScript, and Material UI (MUI). It is designed to simulate legal document review and AI-assisted citation retrieval.
 ## 📦 Getting Started
 
+## 📸 Screenshots
+
+### 1. mobile desktop responsive view
+![mobile desktop responsive view](./screenshots/screenshot-mdin-mobile.jpg)
+
+### 2. Support desktop view
+![ Support desktop view](./screenshots/responsive-ui.png)
+
+### 3. Legal Citation 
+![Legal Citation ](./screenshots/screenshot-mobile.jpg)
+
+### 4. UI
+![UI](./screenshots/ui.png)
+
+
 ### 1. Clone the repository
 
 git clone https://github.com/jobin87/Lexisg-frontend-intern-test
